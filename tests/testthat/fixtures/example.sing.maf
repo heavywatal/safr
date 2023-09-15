@@ -1,0 +1,11 @@
+track name=euArc visibility=pack
+##maf version=1 scoring=tba.v8
+# tba.v8 (human chimp)
+
+a score=23262.0
+s hg18.chr7    27578828 38 + 158545518 AAA-GGGAATGTTAACCAAATGA---ATTGTCTCTTACGGTG
+s panTro1.chr6 28741140 38 + 161576975 AAA-GGGAATGTTAACCAAATGA---ATTGTCTCTTACGGTG
+
+a score=5062.0
+s hg18.chr7    27699739 6 + 158545518 TAAAGA
+s panTro1.chr6 28862317 6 + 161576975 TAAAGA
