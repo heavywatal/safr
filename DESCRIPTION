@@ -1,14 +1,15 @@
 Package: safr
-Title: What the Package Does (One Line, Title Case)
+Title: Summarize and Visualize Sequence Alignment Format Data
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Authors@R:
+    person("Watal M.", "Iwasaki", email = "heavywatal@gmail.com",
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4718-7605"))
+Description: Reads various formats of sequence alignment/mapping data to
+    summmarize and visualize them.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Suggests: 
+Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
