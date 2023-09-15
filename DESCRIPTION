@@ -24,3 +24,5 @@ Imports:
     wtl
 Remotes:
     wtl=heavywatal/rwtl
+URL: https://github.com/heavywatal/safr
+BugReports: https://github.com/heavywatal/safr/issues
