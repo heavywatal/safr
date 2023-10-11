@@ -12,24 +12,33 @@ read_net = function(file) {
   } else {
     lines = readr::read_lines(file, skip_empty_rows = TRUE) |>
       stringr::str_subset("^net|^ fill")
-    header = stringr::str_split_1(lines[1L], " ")
-    target_chr = header[2L]
-    target_size = as.integer(header[3L])
-    lines = stringr::str_remove(lines[-1L], "^ fill ")
-    res = readr::read_delim(
-      I(lines),
-      delim = " ",
-      col_names = c(
-        "start", "twidth", "qchr", "strand", "qstart", "width",
-        "id", "score", "ali", "qdup", "type"
-      ),
-      col_types = "iiccii_i_i_i_i_c",
-      guess_max = 0L
-    ) |>
-      dplyr::mutate(chr = target_chr, size = target_size)
+    groups = lines |>
+      stringr::str_starts("net") |>
+      cumsum()
+    res = split(lines, groups) |>
+      purrr::map(read_net_section) |>
+      purrr::list_rbind()
   }
   class(res) = c("tbl_net", class(res))
   res
+}
+
+read_net_section = function(lines) {
+  net_line = stringr::str_split_1(lines[1L], " ")
+  target_chr = net_line[2L]
+  target_size = as.integer(net_line[3L])
+  lines = stringr::str_remove(lines[-1L], "^ fill ")
+  res = readr::read_delim(
+    I(lines),
+    delim = " ",
+    col_names = c(
+      "start", "twidth", "qchr", "strand", "qstart", "width",
+      "id", "score", "ali", "qdup", "type"
+    ),
+    col_types = "iiccii_i_i_i_i_c",
+    guess_max = 0L
+  ) |>
+    dplyr::mutate(chr = target_chr, size = target_size)
 }
 
 #' @export
