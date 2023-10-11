@@ -34,7 +34,12 @@ read_chain = function(file) {
 
 #' @export
 as_paf.tbl_chain = function(x) {
+  is_rev = x$strand == "-"
+  rev_qstart = x$qsize - x$qend
+  rev_qend = x$qsize - x$qstart
   x |>
     dplyr::mutate(width = .data$qend - .data$qstart, match = .data$width) |>
+    dplyr::mutate(qstart = ifelse(is_rev, rev_qstart, .data$qstart)) |>
+    dplyr::mutate(qend = ifelse(is_rev, rev_qend, .data$qend)) |>
     as_paf.default()
 }
