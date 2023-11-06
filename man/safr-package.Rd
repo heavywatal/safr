@@ -8,6 +8,14 @@
 \description{
 Reads various formats of sequence alignment/mapping data to summmarize and visualize them.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/heavywatal/safr}
+  \item Report bugs at \url{https://github.com/heavywatal/safr/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Watal M. Iwasaki \email{heavywatal@gmail.com} (\href{https://orcid.org/0000-0002-4718-7605}{ORCID})
 
