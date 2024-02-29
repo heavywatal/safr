@@ -23,17 +23,17 @@ test_that("read/write and conversion work", {
     expect_paf(2L, FALSE, FALSE)
   net = read_net(test_path("fixtures", "example.net")) |>
     as_paf() |>
-    expect_paf(2L, TRUE, FALSE)
+    expect_paf(22L, TRUE, FALSE)
   maf = read_singmaf(test_path("fixtures", "example.sing.maf")) |>
     as_paf() |>
     expect_paf(2L, FALSE, FALSE)
 
   paf = rbind(axt, chn, net, maf) |>
     as_paf() |>
-    expect_paf(8L)
+    expect_paf(28L)
   tmpfile = withr::local_tempfile(fileext = ".paf")
   ret = write_paf(paf, tmpfile)
   expect_identical(ret, paf)
   expect_identical(read_paf(tmpfile), paf)
-  expect_identical(read_paf(test_path("fixtures", "example.paf")), paf)
+  expect_identical(paf, read_paf(test_path("fixtures", "example.paf")))
 })
