@@ -8,8 +8,8 @@
 #' @export
 read_net = function(file) {
   res = read_net_flat(file) |>
-    dplyr::group_nest(.data$chr) |>
-    dplyr::mutate(data = purrr::map(.data$data, resolve_gap_meta)) |>
+    dplyr::group_nest(.data$chr, .data$size) |>
+    dplyr::mutate(data = lapply(.data$data, resolve_gap_meta)) |>
     tidyr::unnest("data")
   class(res) = c("tbl_net", class(res))
   res
@@ -17,7 +17,7 @@ read_net = function(file) {
 
 read_net_flat = function(file) {
   if (length(file) > 1L) {
-    res = purrr::map(file, read_net_flat) |> purrr::list_rbind()
+    res = lapply(file, read_net_flat) |> purrr::list_rbind()
   } else {
     lines = readr::read_lines(file, skip_empty_rows = TRUE) |>
       stringr::str_subset("^#", negate = TRUE) |>
@@ -26,7 +26,7 @@ read_net_flat = function(file) {
       stringr::str_starts("net") |>
       cumsum()
     res = split(lines, groups) |>
-      purrr::map(read_net_section) |>
+      lapply(read_net_section) |>
       purrr::list_rbind()
   }
 }
@@ -62,6 +62,7 @@ resolve_fill_gap = function(ranges) {
   fills = ranges[ranges@elementMetadata$class == "fill"]
   gaps = ranges[ranges@elementMetadata$class == "gap"]
   x = fills
+  #_TODO: chimeric alignments can be merged accidentally
   while (length(gaps) > 0L || length(fills) > 0L) {
     x = IRanges::setdiff(x, gaps)
     fills = fills[IRanges::overlapsAny(fills, gaps, type = "within")]
@@ -76,15 +77,21 @@ resolve_gap_meta = function(flat) {
   mdata = flat |>
     dplyr::rename(mstart = "start", mwidth = "width") |>
     dplyr::mutate(mend = .data$mstart + .data$mwidth, .after = "mstart")
-  .within_mdata = dplyr::join_by(within(x$start, x$end, y$mstart, y$mend))
+  fill = mdata |>
+    dplyr::filter(.data$class == "fill")
   gap = mdata |>
     dplyr::filter(.data$class == "gap") |>
     dplyr::select("qchr", gend = "mend", gstart = "qstart")
-  IRanges::IRanges(flat$start, width = flat$width, class = flat$class) |>
+  ranges = IRanges::IRanges(flat$start, width = flat$width, class = flat$class) |>
     resolve_fill_gap() |>
     as.data.frame() |>
-    dplyr::left_join(mdata, by = .within_mdata) |>
-    dplyr::slice_min(.data$mwidth, by = c("start", "end")) |>
+    tibble::new_tibble()
+  #_TODO: slow and wrong: chimeric alignments cannot have proper mdata
+  .within_y = dplyr::join_by(within(x$start, x$end, y$mstart, y$mend))
+  ranges_meta = ranges |>
+    dplyr::left_join(fill, by = .within_y) |>
+    dplyr::slice_min(.data[["mwidth"]], by = c("start", "end"))
+  ranges_meta |>
     dplyr::left_join(gap, by = c("qchr", start = "gend")) |>
     dplyr::mutate(qstart = dplyr::coalesce(.data$gstart, .data$qstart)) |>
     dplyr::mutate(ali = pmin(.data$width, .data$ali)) |>
