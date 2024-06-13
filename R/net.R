@@ -83,15 +83,14 @@ resolve_gap_meta = function(flat) {
     dplyr::filter(.data$class == "gap") |>
     dplyr::select("qchr", gend = "mend", gstart = "qstart")
   ranges = IRanges::IRanges(flat$start, width = flat$width, class = flat$class) |>
-    resolve_fill_gap() |>
-    as.data.frame() |>
-    tibble::new_tibble()
+    resolve_fill_gap()
   #_TODO: slow and wrong: chimeric alignments cannot have proper mdata
   .within_y = dplyr::join_by(within(x$start, x$end, y$mstart, y$mend))
-  ranges_meta = ranges |>
+  fill_meta = ranges |>
+    as.data.frame() |>
     dplyr::left_join(fill, by = .within_y) |>
     dplyr::slice_min(.data[["mwidth"]], by = c("start", "end"))
-  ranges_meta |>
+  fill_meta |>
     dplyr::left_join(gap, by = c("qchr", start = "gend")) |>
     dplyr::mutate(qstart = dplyr::coalesce(.data$gstart, .data$qstart)) |>
     dplyr::mutate(ali = pmin(.data$width, .data$ali)) |>
