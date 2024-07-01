@@ -9,6 +9,8 @@ Description: Reads various formats of sequence alignment/mapping data to
 License: MIT + file LICENSE
 URL: https://github.com/heavywatal/safr
 BugReports: https://github.com/heavywatal/safr/issues
+Depends:
+    R (>= 4.4.0)
 Imports:
     IRanges,
     dplyr,
