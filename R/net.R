@@ -58,7 +58,7 @@ resolve_fill_gap = function(ranges) {
   fills = ranges[ranges@elementMetadata$class == "fill"]
   gaps = ranges[ranges@elementMetadata$class == "gap"]
   x = fills
-  #_TODO: chimeric alignments can be merged accidentally
+  # TODO: chimeric alignments can be merged accidentally
   while (length(gaps) > 0L || length(fills) > 0L) {
     x = IRanges::setdiff(x, gaps)
     fills = fills[IRanges::overlapsAny(fills, gaps, type = "within")]
@@ -80,7 +80,7 @@ resolve_gap_meta = function(flat) {
     dplyr::select("qchr", gend = "mend", gstart = "qstart")
   ranges = IRanges::IRanges(flat$start, width = flat$width, class = flat$class) |>
     resolve_fill_gap()
-  #_TODO: slow and wrong: chimeric alignments cannot have proper mdata
+  # TODO: slow and wrong: chimeric alignments cannot have proper mdata
   .within_y = dplyr::join_by(within(x$start, x$end, y$mstart, y$mend))
   fill_meta = ranges |>
     as.data.frame() |>
