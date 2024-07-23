@@ -3,7 +3,7 @@
 #' - ali: ``Number of bases in alignments in chain.''
 #'
 #' @seealso <https://genome.ucsc.edu/goldenPath/help/net.html>
-#' @param file paths.
+#' @param file path.
 #' @rdname net
 #' @export
 read_net = function(file) {
@@ -16,19 +16,15 @@ read_net = function(file) {
 }
 
 read_net_flat = function(file) {
-  if (length(file) > 1L) {
-    res = lapply(file, read_net_flat) |> purrr::list_rbind()
-  } else {
-    lines = readr::read_lines(file, skip_empty_rows = TRUE) |>
-      stringr::str_subset("^#", negate = TRUE) |>
-      stringr::str_remove("^ +")
-    groups = lines |>
-      stringr::str_starts("net") |>
-      cumsum()
-    res = split(lines, groups) |>
-      lapply(read_net_section) |>
-      purrr::list_rbind()
-  }
+  lines = readr::read_lines(file, skip_empty_rows = TRUE) |>
+    stringr::str_subset("^#", negate = TRUE) |>
+    stringr::str_remove("^ +")
+  groups = lines |>
+    stringr::str_starts("net") |>
+    cumsum()
+  res = split(lines, groups) |>
+    lapply(read_net_section) |>
+    purrr::list_rbind()
 }
 
 read_net_section = function(lines) {

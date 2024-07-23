@@ -7,7 +7,7 @@
 read_singmaf(file)
 }
 \arguments{
-\item{file}{paths.}
+\item{file}{path.}
 }
 \description{
 \itemize{

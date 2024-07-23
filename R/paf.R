@@ -3,7 +3,7 @@
 #' The spec is in minimap2 manual:
 #' <https://lh3.github.io/minimap2/minimap2.html>.
 #' @param x data.frame.
-#' @param file paths.
+#' @param file path.
 #' @rdname paf
 #' @export
 as_paf = function(x) UseMethod("as_paf")

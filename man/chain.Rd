@@ -7,7 +7,7 @@
 read_chain(file)
 }
 \arguments{
-\item{file}{paths.}
+\item{file}{path.}
 }
 \description{
 The positions are represented as zero-based half-open intervals.

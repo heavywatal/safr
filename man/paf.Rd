@@ -15,7 +15,7 @@ write_paf(x, file)
 \arguments{
 \item{x}{data.frame.}
 
-\item{file}{paths.}
+\item{file}{path.}
 }
 \description{
 The spec is in minimap2 manual:

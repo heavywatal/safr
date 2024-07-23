@@ -6,25 +6,21 @@
 #'   fields are relative to the reverse-complemented coordinates of its chromosome.''
 #'
 #' @seealso <https://genome.ucsc.edu/goldenPath/help/axt.html>
-#' @param file paths.
+#' @param file path.
 #' @rdname axt
 #' @export
 read_axt = function(file) {
-  if (length(file) > 1L) {
-    res = purrr::map(file, read_axt) |> purrr::list_rbind()
-  } else {
-    lines = readr::read_lines(file, skip_empty_rows = TRUE) |>
-      stringr::str_subset("^\\d")
-    res = readr::read_delim(
-      I(lines),
-      delim = " ",
-      col_names = c("id", "chr", "start", "end", "qchr", "qstart", "qend", "strand", "score"),
-      col_types = "iciiciici",
-      guess_max = 0L
-    )
-    .nrow = nrow(res)
-    stopifnot(res[["id"]][.nrow] == .nrow - 1L)
-  }
+  lines = readr::read_lines(file, skip_empty_rows = TRUE) |>
+    stringr::str_subset("^\\d")
+  res = readr::read_delim(
+    I(lines),
+    delim = " ",
+    col_names = c("id", "chr", "start", "end", "qchr", "qstart", "qend", "strand", "score"),
+    col_types = "iciiciici",
+    guess_max = 0L
+  )
+  .nrow = nrow(res)
+  stopifnot(res[["id"]][.nrow] == .nrow - 1L)
   class(res) = c("tbl_axt", class(res))
   res
 }

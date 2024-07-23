@@ -7,7 +7,7 @@
 read_net(file)
 }
 \arguments{
-\item{file}{paths.}
+\item{file}{path.}
 }
 \description{
 \itemize{
