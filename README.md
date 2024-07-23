@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/heavywatal/safr/graph/badge.svg?token=XVZMHIEZFX)](https://codecov.io/gh/heavywatal/safr)
 <!-- badges: end -->
 
-safr is an R package to summmarize and visualize various formats of sequence alignment/mapping data.
+safr is an R package to summarize and visualize various formats of sequence alignment/mapping data.
 
 
 ## Installation

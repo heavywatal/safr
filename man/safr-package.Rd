@@ -6,7 +6,7 @@
 \alias{safr-package}
 \title{safr: Summarize and Visualize Sequence Alignment Format Data}
 \description{
-Reads various formats of sequence alignment/mapping data to summmarize and visualize them.
+Reads various formats of sequence alignment/mapping data to summarize and visualize them.
 }
 \seealso{
 Useful links:

@@ -5,7 +5,7 @@ Authors@R:
     person("Watal M.", "Iwasaki", , "heavywatal@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4718-7605"))
 Description: Reads various formats of sequence alignment/mapping data to
-    summmarize and visualize them.
+    summarize and visualize them.
 License: MIT + file LICENSE
 URL: https://github.com/heavywatal/safr
 BugReports: https://github.com/heavywatal/safr/issues
