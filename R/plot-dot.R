@@ -32,9 +32,15 @@ facet_grid_chr = function() {
 #' @rdname plot-dot
 #' @export
 theme_dotplot = function(
-    base_size = 12, base_family = "",
-    base_line_size = base_size / 24, base_rect_size = base_size / 24) {
-  ggplot2::theme_light(base_size, base_family, base_line_size, base_rect_size) +
+  base_size = 12, base_family = "",
+  base_line_size = base_size / 24, base_rect_size = base_size / 24
+) {
+  ggplot2::theme_light(
+    base_size = base_size,
+    base_family = base_family,
+    base_line_size = base_line_size,
+    base_rect_size = base_rect_size
+  ) +
     ggplot2::theme(panel.spacing = grid::unit(0, "mm"))
 }
 
